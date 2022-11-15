@@ -1,0 +1,26 @@
+{
+  "name": "badgebot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node build.mjs && node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "oceanic.js": "^1.3.0",
+    "pako": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/parser": "^5.43.0",
+    "esbuild": "^0.15.14",
+    "eslint": "^8.27.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "typescript": "^4.8.4"
+  }
+}
