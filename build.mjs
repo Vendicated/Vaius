@@ -15,7 +15,7 @@ await esbuild.build({
     bundle: true,
     plugins: [makeAllPackagesExternalPlugin],
     outfile: "dist/index.js",
-    minify: true,
+    minify: false,
     treeShaking: true,
     target: "esnext",
     platform: "node",
