@@ -1,6 +1,6 @@
 import { CreateMessageOptions, Message } from "oceanic.js";
 
-export function reply(msg: Message, opts: CreateMessageOptions) {
+export function reply(msg: Message, opts: CreateMessageOptions): Promise<Message> {
     return msg.channel!.createMessage({
         ...opts,
         messageReference: {

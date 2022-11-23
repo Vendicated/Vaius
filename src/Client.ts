@@ -6,7 +6,9 @@ import { reply } from "./util";
 
 const commands: Record<string, Command> = {
     eval: require("./eval").default,
-    findskids: require("./findSkids").default
+    findskids: require("./findSkids").default,
+    ban: require("./ban").default,
+    support: require("./support").default,
 };
 
 export const Vaius = new Client({
