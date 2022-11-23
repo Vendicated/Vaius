@@ -11,6 +11,11 @@ export default defineCommand({
         if (!msg.member.permissions.has("BAN_MEMBERS"))
             return reply(msg, { content: "nop" });
 
+        let possibleDays = Number(args[0]) || 0;
+        if (possibleDays > 0 && possibleDays < 8)
+            args.shift();
+        else possibleDays = 0;
+
         const ids = [] as string[];
         let reason = "Absolutely beaned";
         for (let i = 0; i < args.length; i++) {
@@ -28,7 +33,7 @@ export default defineCommand({
 
         const results = [] as string[];
         for (const id of ids) {
-            await msg.guild.createBan(id, { reason })
+            await msg.guild.createBan(id, { reason, deleteMessageDays: possibleDays as 0 })
                 .catch(e => results.push(`Failed to ban ${id}: \`${String(e)}\``));
         }
 
