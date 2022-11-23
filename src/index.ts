@@ -22,4 +22,4 @@ if (process.env.NODE_ENV === "production") {
 process.on("unhandledRejection", console.error);
 process.on("uncaughtException", console.error);
 
-Vaius.connect();
+Vaius.connect().catch(console.error);

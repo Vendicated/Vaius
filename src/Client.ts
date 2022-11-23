@@ -42,7 +42,6 @@ Vaius.on("messageCreate", async msg => {
     if (msg.author.bot) return;
     moderateMessage(msg);
 
-    if (msg.content === "owo") return void reply(msg, { content: "owo" });
     if (!msg.content?.startsWith(PREFIX)) return;
 
     const args = msg.content.slice(PREFIX.length).split(spaces);

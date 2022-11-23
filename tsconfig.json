@@ -2,7 +2,14 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "esnext.array", "esnext.asynciterable", "esnext.symbol"],
+    "lib": [
+      "esnext",
+      "esnext.array",
+      "esnext.asynciterable",
+      "esnext.symbol",
+      // Typescript will EXPLODE, we are node but node typings dont have fetch
+      "DOM"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
