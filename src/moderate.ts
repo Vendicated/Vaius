@@ -1,6 +1,7 @@
 import { readFile } from "fs/promises";
 import { Member, Message } from "oceanic.js";
 import { join } from "path";
+import { fetch } from "undici";
 
 import { Vaius } from "./Client";
 
