@@ -15,7 +15,7 @@ Promise.all(["sxcu.txt", "upload-systems.txt"].map(async s => {
     return content.trim().split("\n");
 })).then(domains => {
     const list = domains.flat().filter(Boolean).map(d => d.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"));
-    imageHostRegex = new RegExp(`https?://(${list.join("|")})`, "g");
+    imageHostRegex = new RegExp(`https?://(\w+\.)?(${list.join("|")})`, "g");
     console.log(`Loaded ${list.length} image hosts`);
 });
 
