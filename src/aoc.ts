@@ -62,7 +62,7 @@ async function makeAocContent() {
 Leaderboard: ${LEADERBOARD_URL}
 Last Submission: <t:${lastStarTs}> by ${lastStarUser}
 
-` + "```\n" + formatTable(rows) + "```";
+` + "```\n" + formatTable(rows) + "```" + `\nLast Updated: <t:${Math.floor(Date.now() / 1000)}>`;
 }
 
 let lastMessage: Message;
