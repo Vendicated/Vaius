@@ -28,3 +28,13 @@ export async function sendManyLines(msg: Message, lines: string[]) {
     }
     if (s) await doSend();
 }
+
+const ZWSP = "\u200B";
+
+export function formatTable(rows: string[][]) {
+    const highestLengths = Array.from({ length: rows[0].length }, (_, i) => Math.max(...rows.map(r => r[i].length)));
+
+    return ZWSP + rows.map(
+        row => row.map((s, i) => s.padStart(highestLengths[i], " ")).join("    ")
+    ).join("\n");
+}

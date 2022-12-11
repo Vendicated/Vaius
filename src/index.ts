@@ -3,6 +3,8 @@ import {
     InteractionTypes
 } from "oceanic.js";
 
+import "./aoc";
+
 import { Vaius } from "./Client";
 
 if (process.env.NODE_ENV === "production") {
