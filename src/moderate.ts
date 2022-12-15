@@ -1,4 +1,4 @@
-import { readFile } from "fs/promises";
+import { readdir, readFile } from "fs/promises";
 import { Member, Message } from "oceanic.js";
 import { join } from "path";
 import { fetch } from "undici";
@@ -11,10 +11,13 @@ const mentions = /<@!?(\d{17,20})>/g;
 // matches nothing
 let imageHostRegex = /^(?!a)a/;
 
-Promise.all(["sxcu.txt", "upload-systems.txt"].map(async s => {
-    const content = await readFile(join(__dirname, "..", "data", "annoying-domains", s), "utf8");
-    return content.trim().split("\n");
-})).then(domains => {
+const annoyingDomainsDir = join(__dirname, "..", "data", "annoying-domains");
+readdir(annoyingDomainsDir).then(files =>
+    Promise.all(files.filter(f => f !== "README.md").map(async s => {
+        const content = await readFile(join(annoyingDomainsDir, s), "utf8");
+        return content.trim().split("\n");
+    }))
+).then(domains => {
     const list = domains.flat().filter(Boolean).map(d => d.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"));
     imageHostRegex = new RegExp(`https?://(\\w+\\.)?(${list.join("|")})`, "g");
     console.log(`Loaded ${list.length} image hosts`);
