@@ -1,5 +1,5 @@
 import { readdir, readFile } from "fs/promises";
-import { EmbedImage, EmbedVideo, Member, Message } from "oceanic.js";
+import { Member, Message } from "oceanic.js";
 import { join } from "path";
 import { fetch } from "undici";
 
@@ -88,7 +88,7 @@ export async function moderateImageHosts(msg: Message) {
         const embed = msg.embeds.find(e => e.url?.startsWith(match));
         if (!embed) continue;
 
-        const img: EmbedImage | EmbedVideo | undefined = embed.video || embed.image || embed.thumbnail;
+        const img = embed.video ?? embed.image ?? embed.thumbnail;
         if (!img) continue;
 
         const url = img.proxyURL || img.url;
