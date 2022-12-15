@@ -4,6 +4,7 @@ import { join } from "path";
 import { fetch } from "undici";
 
 import { Vaius } from "./Client";
+import { sendDm, silently, until } from "./util";
 
 const mentions = /<@!?(\d{17,20})>/g;
 
@@ -15,13 +16,28 @@ Promise.all(["sxcu.txt", "upload-systems.txt"].map(async s => {
     return content.trim().split("\n");
 })).then(domains => {
     const list = domains.flat().filter(Boolean).map(d => d.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"));
-    imageHostRegex = new RegExp(`https?://(\w+\.)?(${list.join("|")})`, "g");
+    imageHostRegex = new RegExp(`https?://(\\w+\\.)?(${list.join("|")})`, "g");
     console.log(`Loaded ${list.length} image hosts`);
 });
+
+const ChannelRules: Record<string, (m: Message) => string | void> = {
+    "1028106818368589824"(m) {
+        if (m.content.includes("```css")) return;
+        if (m.content.includes("https://")) return;
+        if (m.attachments?.some(a => a.filename?.endsWith(".css"))) return;
+        return "Please only post css snippets. To ask questions or discuss snippets, make a thread.";
+    }
+};
 
 export async function moderateMessage(msg: Message) {
     if (!msg.inCachedGuildChannel()) return;
     if (!msg.channel.permissionsOf(Vaius.user.id).has("MANAGE_MESSAGES")) return;
+
+    const warnText = ChannelRules[msg.channel.id]?.(msg);
+    if (warnText) {
+        silently(msg.delete().then(() => sendDm(msg.author, { content: warnText })));
+        return;
+    }
 
     const allMentions = [...msg.content.matchAll(mentions)];
 
@@ -31,8 +47,16 @@ export async function moderateMessage(msg: Message) {
         return acc;
     }, {} as Record<string, number>);
 
+    const dupeCounts = Object.values(dupeCount);
+    if (dupeCounts.length > 10) {
+        silently(msg.delete());
+        silently(msg.member.edit({ communicationDisabledUntil: until(1000 * 60 * 60 * 5), reason: "mass ping" }));
+        return;
+    }
+
     if (Object.values(dupeCount).some(x => x >= 3)) {
-        await msg.delete();
+        silently(msg.delete());
+        silently(msg.member.edit({ communicationDisabledUntil: until(1000 * 30), reason: "ping spam" }));
         return;
     }
 
@@ -48,9 +72,9 @@ export async function moderateNick(member: Member) {
     const isLame = name.startsWith("!") || !saneName.test(name) || name.includes("nigger");
 
     if (isLame)
-        await member.edit({
+        silently(member.edit({
             nick: "I am a lame face"
-        });
+        }));
 }
 
 const Size8MB = 1024 * 1024 * 8;
@@ -66,15 +90,16 @@ export async function moderateImageHosts(msg: Message) {
 
         const url = img.proxyURL || img.url;
         const size = await fetch(url, { method: "HEAD" })
-            .then(d => d.headers.get("content-length"));
+            .then(d => d.headers.get("content-length"))
+            .catch(() => Number.MAX_VALUE);
 
         if (Number(size) > Size8MB)
             continue;
 
-        await msg.delete();
-        const dm = await msg.author.createDM().catch(() => void 0);
-        dm?.createMessage({
-            content: "cdn.discordapp.com is a free and great way to share images! (Please stop using stupid image hosts)"
-        });
+        silently(msg.delete().then(() =>
+            sendDm(msg.author, {
+                content: "cdn.discordapp.com is a free and great way to share images! (Please stop using stupid image hosts)"
+            })
+        ));
     }
 }
