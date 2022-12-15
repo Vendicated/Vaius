@@ -106,5 +106,7 @@ export async function moderateImageHosts(msg: Message) {
                 content: "cdn.discordapp.com is a free and great way to share images! (Please stop using stupid image hosts)"
             })
         ));
+
+        return;
     }
 }
