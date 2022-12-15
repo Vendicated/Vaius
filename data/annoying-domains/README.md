@@ -11,3 +11,14 @@ copy(
     .join("\n")
 );
 ```
+
+### encrypting.host
+
+```js
+copy(
+  $$("div:has([name='domains']) li")
+    .map(l => l.textContent.split(" ").shift().replace("*.", ""))
+    .filter(d => d.includes("."))
+    .join("\n")
+)
+```
