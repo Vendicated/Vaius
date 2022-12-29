@@ -37,7 +37,7 @@ Vaius.once("ready", () => {
     console.log(`I am in ${Vaius.guilds.size} guilds`);
 });
 
-const spaces = / +/;
+const spaces = /\s+/;
 const PREFIX = "v";
 
 Vaius.on("messageCreate", async msg => {
@@ -46,7 +46,7 @@ Vaius.on("messageCreate", async msg => {
 
     if (!msg.content?.startsWith(PREFIX)) return;
 
-    const args = msg.content.slice(PREFIX.length).split(spaces);
+    const args = msg.content.slice(PREFIX.length).trim().split(spaces);
     const cmd = commands[args.shift()!];
     if (!cmd) return;
 
