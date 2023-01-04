@@ -20,9 +20,6 @@ readdir(annoyingDomainsDir).then(files =>
     const list = domains.flat().filter(Boolean).map(d => d.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"));
     imageHostRegex = new RegExp(`https?://(\\w+\\.)?(${list.join("|")})`, "i");
     console.log(`Loaded ${list.length} image hosts`);
-
-    console.log(imageHostRegex);
-    console.log(imageHostRegex.test("https://cute-gf.shop/%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B"));
 });
 
 const ChannelRules: Record<string, (m: Message) => string | void> = {
