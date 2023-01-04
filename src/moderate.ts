@@ -1,5 +1,5 @@
 import { readdir, readFile } from "fs/promises";
-import { Member, Message } from "oceanic.js";
+import { Member, Message, MessageTypes } from "oceanic.js";
 import { join } from "path";
 import { fetch } from "undici";
 
@@ -28,6 +28,7 @@ const ChannelRules: Record<string, (m: Message) => string | void> = {
         if (m.content.includes("```css")) return;
         if (m.content.includes("https://")) return;
         if (m.attachments?.some(a => a.filename?.endsWith(".css"))) return;
+        if (m.type === MessageTypes.THREAD_CREATED) return "";
         return "Please only post css snippets. To ask questions or discuss snippets, make a thread.";
     }
 };
@@ -37,8 +38,8 @@ export async function moderateMessage(msg: Message) {
     if (!msg.channel.permissionsOf(Vaius.user.id).has("MANAGE_MESSAGES")) return;
 
     const warnText = ChannelRules[msg.channel.id]?.(msg);
-    if (warnText) {
-        silently(msg.delete().then(() => sendDm(msg.author, { content: warnText })));
+    if (warnText !== void 0) {
+        silently(msg.delete().then(() => !!warnText && sendDm(msg.author, { content: warnText })));
         return;
     }
 
