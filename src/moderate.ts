@@ -1,7 +1,6 @@
 import { readdir, readFile } from "fs/promises";
 import { Member, Message, MessageTypes } from "oceanic.js";
 import { join } from "path";
-import { fetch } from "undici";
 
 import { Vaius } from "./Client";
 import { sendDm, silently, until } from "./util";
@@ -19,8 +18,11 @@ readdir(annoyingDomainsDir).then(files =>
     }))
 ).then(domains => {
     const list = domains.flat().filter(Boolean).map(d => d.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"));
-    imageHostRegex = new RegExp(`https?://(\\w+\\.)?(${list.join("|")})`, "g");
+    imageHostRegex = new RegExp(`https?://(\\w+\\.)?(${list.join("|")})`, "i");
     console.log(`Loaded ${list.length} image hosts`);
+
+    console.log(imageHostRegex);
+    console.log(imageHostRegex.test("https://cute-gf.shop/%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B%E2%80%8C%E2%80%8C%E2%80%8B%E2%80%8C%E2%80%8B%E2%80%8B"));
 });
 
 const ChannelRules: Record<string, (m: Message) => string | void> = {
@@ -84,30 +86,10 @@ export async function moderateNick(member: Member) {
 const Size8MB = 1024 * 1024 * 8;
 
 export async function moderateImageHosts(msg: Message) {
-    const matches = msg.content.match(imageHostRegex) ?? [];
-    for (const match of matches) {
-        const embed = msg.embeds.find(e => e.url?.startsWith(match));
-        if (!embed) continue;
-
-        const img = embed.video ?? embed.image ?? embed.thumbnail;
-        if (!img) continue;
-
-        const url = img.proxyURL || img.url;
-        if (!url) continue;
-
-        const size = await fetch(url, { method: "HEAD" })
-            .then(d => d.headers.get("content-length"))
-            .catch(() => Number.MAX_VALUE);
-
-        if (Number(size) > Size8MB)
-            continue;
-
+    if (imageHostRegex.test(msg.content))
         silently(msg.delete().then(() =>
             sendDm(msg.author, {
                 content: "cdn.discordapp.com is a free and great way to share images! (Please stop using stupid image hosts)"
             })
         ));
-
-        return;
-    }
 }
