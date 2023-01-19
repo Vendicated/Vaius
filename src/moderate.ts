@@ -57,7 +57,7 @@ export async function moderateMessage(msg: Message) {
         return;
     }
 
-    if (Object.values(dupeCount).some(x => x >= 3)) {
+    if (Object.values(dupeCount).some(x => x > 3)) {
         silently(msg.delete());
         silently(msg.member.edit({ communicationDisabledUntil: until(1000 * 30), reason: "ping spam" }));
         return;
