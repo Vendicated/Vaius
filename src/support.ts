@@ -31,7 +31,13 @@ You can make our lives easier by providing the following information:
 `.trim(),
 
     update: "This issue has already been fixed. Please update to the latest version either using the inbuilt updater tab or by using the installer",
-
+    
+    windowheight: `
+    windows: \`%appdata%/discord<branch>/settings.json\`
+    Linux: \`~/.config/discord<branch>/settings.json\`
+    Edit \`MIN_WIDTH\` and \`MIN_HEIGHT\` in the json to your likings
+    `.trim(),
+        
     abuse: `
 Plugins that are api spam or abusive are not allowed
 This includes things like animated status, message pruner, auto economy plugins, and so on...
