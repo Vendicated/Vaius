@@ -1,6 +1,7 @@
 import { readdir, readFile } from "fs/promises";
 import { Member, Message, MessageTypes } from "oceanic.js";
 import { join } from "path";
+import { fetch } from "undici";
 
 import { Vaius } from "./Client";
 import { sendDm, silently, until } from "./util";
@@ -64,6 +65,21 @@ export async function moderateMessage(msg: Message) {
     }
 
     moderateImageHosts(msg);
+
+    for (const [, a] of msg.attachments) {
+        if (a.filename.endsWith(".txt")) {
+            const content = await fetch(a.url, {
+                headers: {
+                    Range: "bytes=0-13"
+                }
+            }).then(r => r.text());
+
+            if (content === "-----BEGIN PGP") {
+                silently(msg.delete());
+                return;
+            }
+        }
+    }
 }
 
 const saneName = /\w/;
