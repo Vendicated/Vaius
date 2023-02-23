@@ -68,13 +68,11 @@ export async function moderateMessage(msg: Message) {
 
     for (const [, a] of msg.attachments) {
         if (a.filename.endsWith(".txt")) {
-            const content = await fetch(a.url, {
-                headers: {
-                    Range: "bytes=0-13"
-                }
-            }).then(r => r.text());
+            const content = await fetch(a.url).then(r => r.text());
 
-            if (content === "-----BEGIN PGP") {
+            const pgpRegex = /pgp/i; 
+            
+            if (pgpRegex.test(content)) {
                 silently(msg.delete());
                 return;
             }
