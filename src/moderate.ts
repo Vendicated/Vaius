@@ -70,7 +70,7 @@ export async function moderateMessage(msg: Message) {
         if (a.filename.endsWith(".txt")) {
             const content = await fetch(a.url).then(r => r.text());
 
-            const pgpRegex = /pgp/i; 
+            const pgpRegex = /BEGIN PGP/i; 
             
             if (pgpRegex.test(content)) {
                 silently(msg.delete());
