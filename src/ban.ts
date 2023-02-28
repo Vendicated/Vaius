@@ -1,5 +1,5 @@
 import { defineCommand } from "./Command";
-import { reply } from "./util";
+import { reply, silently } from "./util";
 
 const idRe = /^(?:<@!?)?(\d{17,20})>?$/;
 
@@ -33,6 +33,13 @@ export default defineCommand({
 
         const results = [] as string[];
         for (const id of ids) {
+            await silently(
+                msg.client.rest.channels.createDM(id)
+                    .then(dm => dm.createMessage({
+                        content: `You have been banned from the Vencord Server by ${msg.author.tag}.\nReason: ${reason}`
+                    }))
+            );
+
             await msg.guild.createBan(id, { reason, deleteMessageDays: possibleDays as 0 })
                 .catch(e => results.push(`Failed to ban ${id}: \`${String(e)}\``));
         }
