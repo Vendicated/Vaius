@@ -18,6 +18,10 @@ This error shows because the app isn't signed since I'm not willing to pay 100 b
     get "more info"() {
         return this.moreinfo;
     },
+
+    get "betterdiscord"() {
+        return this.bd;
+    },
     moreinfo: `
 "doesn't work" or similar are not very helpful.
 You can make our lives easier by doing the following steps:
@@ -29,6 +33,15 @@ You can make our lives easier by doing the following steps:
 
     update: "This issue has already been fixed. Please update to the latest version either using the inbuilt updater tab or by using the installer",
     read: "This issue has already been answered many times. Read <#1027235873990901780> and the most recent posts in <#1024351821873037462>",
+    bd: "No, you cannot use Vencord and BetterDiscord together. BetterDiscord plugins do not work on Vencord, and Vencord plugins don't work on BetterDiscord. <:husk:1026532993923293184>",
+    plugins: `
+All of the plugins you need are built into Vencord under User Settings > Plugins tab.
+If you don't see a plugin in the list, it most likely hasn't been made yet.
+
+Third party "custom" plugins and instructions can be found in <#1032200195582197831>.
+This requires some command line knowledge, so it is not for the everyday user.
+`.trim(),
+
 };
 
 export default defineCommand({
