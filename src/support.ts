@@ -19,6 +19,10 @@ This error shows because the app isn't signed since I'm not willing to pay 100 b
         return this.moreinfo;
     },
 
+    get "third party plugins"() {
+        return this.plugins;
+    },
+
     get "betterdiscord"() {
         return this.bd;
     },
