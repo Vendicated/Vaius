@@ -17,7 +17,7 @@ export default defineCommand({
         const faq = await fetchFaq();
 
         const match = (() => {
-            if (!query) return faq[0];
+            if (!query) return;
 
             const idx = Number(query);
             if (!isNaN(idx)) return faq[idx];
