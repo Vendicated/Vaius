@@ -2,7 +2,18 @@ import { defineCommand } from "./Command";
 import { reply } from "./util";
 
 const instructions = {
-    windows: "Download the latest VencordInstaller.exe from GitHub Releases and run it: https://github.com/Vendicated/VencordInstaller/releases/latest/download/VencordInstaller.exe",
+    windows: `
+Download the latest VencordInstaller.exe from GitHub Releases and run it:
+https://github.com/Vendicated/VencordInstaller/releases/latest/download/VencordInstaller.exe
+
+Alternatively, or if the normal installer does not work, open Powershell and run the following command:
+\`\`\`ps1
+iwr "https://raw.githubusercontent.com/Vencord/Installer/main/install.ps1" | iex
+\`\`\`
+`.trim(),
+    get win() {
+        return this.windows;
+    },
     linux: '```sh\nsh -c "$(curl -s https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"\n```',
     mac: `
 Download the latest Mac build from GitHub Releases, unzip it, and run \`VencordInstaller.app\`: https://github.com/Vendicated/VencordInstaller/releases/latest/download/VencordInstaller.MacOS.zip
@@ -28,7 +39,7 @@ You can make our lives easier by doing the following steps:
 `.trim(),
 
     update: "This issue has already been fixed. Please update to the latest version either using the inbuilt updater tab or by using the installer",
-    read: "This issue has already been answered many times. Read <#1027235873990901780> and the most recent posts in <#1024351821873037462>",
+    read: "This issue has already been answered many times. Please read <#1027235873990901780> and the most recent posts in <#1024351821873037462>",
 };
 
 export default defineCommand({
