@@ -20,7 +20,7 @@ export default defineCommand({
             if (!query) return;
 
             const idx = Number(query);
-            if (!isNaN(idx)) return faq[idx];
+            if (!isNaN(idx)) return faq[idx - 1];
             return faq.find(f => f.question.toLowerCase().includes(query.toLowerCase()));
         })();
 
