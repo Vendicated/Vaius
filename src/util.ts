@@ -1,4 +1,5 @@
 import { CreateMessageOptions, Message, User } from "oceanic.js";
+import { fetch } from "undici";
 
 export function reply(msg: Message, opts: CreateMessageOptions): Promise<Message> {
     return msg.channel!.createMessage({
@@ -52,4 +53,21 @@ export async function silently<T>(p?: Promise<T>) {
 export async function sendDm(user: User, data: CreateMessageOptions) {
     const dm = await silently(user.createDM());
     return !!dm && dm?.createMessage(data).then(() => true).catch(() => false);
+}
+
+export function makeCachedJsonFetch<T>(url: string, msUntilStale = 60_000 * 5) {
+    let cachedValue: unknown;
+    let cacheTimestamp = 0;
+
+    return async () => {
+        if (Date.now() - cacheTimestamp > msUntilStale) {
+            const res = await fetch(url);
+            if (!res.ok)
+                throw new Error(`Failed to get ${url} - ${res.status}: ${res.statusText}`);
+
+            cachedValue = await res.json();
+            cacheTimestamp = Date.now();
+        }
+        return cachedValue as T;
+    };
 }
