@@ -16,7 +16,13 @@ export default defineCommand({
 
         const faq = await fetchFaq();
 
-        const match = !isNaN(Number(query)) ? faq[query] : faq.find(f => f.question.toLowerCase().includes(query.toLowerCase()));
+        const match = (() => {
+            if (!query) return faq[0];
+
+            const idx = Number(query);
+            if (!isNaN(idx)) return faq[idx];
+            return faq.find(f => f.question.toLowerCase().includes(query.toLowerCase()));
+        })();
 
         if (match) {
             return msg.channel.createMessage({
