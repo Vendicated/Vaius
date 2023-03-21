@@ -9,6 +9,7 @@ const commands: Record<string, Command> = {
     findskids: require("./findSkids").default,
     ban: require("./ban").default,
     support: require("./support").default,
+    faq: require("./faq").default,
 };
 
 export const Vaius = new Client({

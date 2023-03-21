@@ -11,13 +11,15 @@ const fetchFaq = makeCachedJsonFetch<Faq[]>(VENCORD_SITE + "/faq.json");
 
 export default defineCommand({
     name: "faq",
-    async execute(message, query) {
+    async execute(msg, query) {
+        if (!msg.inCachedGuildChannel()) return;
+
         const faq = await fetchFaq();
 
         const match = !isNaN(Number(query)) ? faq[query] : faq.find(f => f.question.toLowerCase().includes(query.toLowerCase()));
 
         if (match) {
-            return message.channel?.createMessage({
+            return msg.channel.createMessage({
                 embeds: [{
                     title: match.question,
                     description: match.answer,
@@ -25,7 +27,7 @@ export default defineCommand({
             });
         }
 
-        return message.channel?.createMessage({
+        return msg.channel.createMessage({
             content: faq.map((f, i) => `**${i + 1}**. ${f.question}`).join("\n")
         });
     },
