@@ -8,7 +8,7 @@ https://github.com/Vendicated/VencordInstaller/releases/latest/download/VencordI
 
 Alternatively, or if the normal installer does not work, open Powershell and run the following command:
 \`\`\`ps1
-iwr "https://raw.githubusercontent.com/Vencord/Installer/main/install.ps1" | iex
+iwr "https://raw.githubusercontent.com/Vencord/Installer/main/install.ps1" -UseBasicParsing | iex
 \`\`\`
 `.trim(),
     get win() {
