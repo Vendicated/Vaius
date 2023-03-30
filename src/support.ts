@@ -32,7 +32,7 @@ This error shows because the app isn't signed since I'm not willing to pay 100 b
     moreinfo: `
 "doesn't work" or similar are not very helpful.
 You can make our lives easier by doing the following steps:
-> - Run the /vencord-debug command to send information about your Discord and Vencord to us
+> - Run the \`/vencord-debug\` slash command inside Discord to send information about your Discord and Vencord to us
 > - Are there any errors? Open the console (Ctrl+Shift+I) and check the console tab. If there are any errors (red text), please provide them.
 > - Does this issue persistently happen, or only sometimes?
 > - Please provide steps to reproduce this issue. Screenshots or videos are also helpful.
