@@ -5,6 +5,7 @@ import { makeCachedJsonFetch } from "./util";
 interface Faq {
     question: string;
     answer: string;
+    tags: string[];
 }
 
 const fetchFaq = makeCachedJsonFetch<Faq[]>(VENCORD_SITE + "/faq.json");
@@ -21,7 +22,12 @@ export default defineCommand({
 
             const idx = Number(query);
             if (!isNaN(idx)) return faq[idx - 1];
-            return faq.find(f => f.question.toLowerCase().includes(query.toLowerCase()));
+
+            query = query.toLowerCase();
+            return faq.find(f =>
+                f.tags.includes(query) ||
+                f.question.toLowerCase().includes(query)
+            );
         })();
 
         if (match) {

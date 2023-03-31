@@ -23,12 +23,22 @@ readdir(annoyingDomainsDir).then(files =>
     console.log(`Loaded ${list.length} image hosts`);
 });
 
+/**
+ * Return type:
+ * - void: no action should be taken
+ * - empty string: delete silently
+ * - string: delete and dm this message to the user
+ */
 const ChannelRules: Record<string, (m: Message) => string | void> = {
     "1028106818368589824"(m) {
+        switch (m.type) {
+            case MessageTypes.CHANNEL_PINNED_MESSAGE:
+            case MessageTypes.THREAD_CREATED:
+                return "";
+        }
         if (m.content.includes("```css")) return;
         if (m.content.includes("https://")) return;
         if (m.attachments?.some(a => a.filename?.endsWith(".css"))) return;
-        if (m.type === MessageTypes.THREAD_CREATED) return "";
         return "Please only post css snippets. To ask questions or discuss snippets, make a thread.";
     }
 };
@@ -93,8 +103,6 @@ export async function moderateNick(member: Member) {
             nick: "I am a lame face"
         }));
 }
-
-const Size8MB = 1024 * 1024 * 8;
 
 export async function moderateImageHosts(msg: Message) {
     if (imageHostRegex.test(msg.content))
