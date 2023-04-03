@@ -1,4 +1,4 @@
-import { Client, Intents } from "oceanic.js";
+import { Client, Intents, MessageTypes } from "oceanic.js";
 
 import { Command } from "./Command";
 import { moderateMessage, moderateNick } from "./moderate";
@@ -66,3 +66,8 @@ Vaius.on("messageCreate", async msg => {
 
 Vaius.on("guildMemberUpdate", m => moderateNick(m));
 Vaius.on("guildMemberAdd", m => moderateNick(m));
+
+Vaius.on("messageDelete", msg => {
+    if ("type" in msg && msg.type === MessageTypes.USER_JOIN)
+        msg.channel?.createMessage({ content: `${msg.author.mention} welcome :3` });
+});
