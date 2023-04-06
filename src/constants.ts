@@ -1,1 +1,1 @@
-export const VENCORD_SITE = "https://vencord-website.vercel.app";
+export const VENCORD_SITE = "https://vencord.dev";
