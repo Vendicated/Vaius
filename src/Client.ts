@@ -10,6 +10,7 @@ const commands: Record<string, Command> = {
     ban: require("./ban").default,
     support: require("./support").default,
     faq: require("./faq").default,
+    prune: require("./prune").default,
 };
 
 export const Vaius = new Client({
