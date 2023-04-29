@@ -3,6 +3,8 @@ import { inspect } from "util";
 import { defineCommand } from "../Command";
 import { reply } from "../util";
 
+const codeblock = (s: string) => "```js\n" + s + "```";
+
 defineCommand({
     name: "eval",
     aliases: ["e", "$"],
@@ -34,8 +36,13 @@ defineCommand({
 
         const res = inspect(result).slice(0, 1990);
 
+        let output = codeblock(res);
+        const consoleOutput = console._lines.join("\n").slice(0, Math.max(0, 1990 - output.length));
+
+        if (consoleOutput) output += `\n${codeblock(consoleOutput)}`;
+
         return reply(msg, {
-            content: "```js\n" + res + "```"
+            content: output
         });
     }
 });

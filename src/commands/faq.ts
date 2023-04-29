@@ -36,12 +36,15 @@ defineCommand({
                 embeds: [{
                     title: match.question,
                     description: match.answer,
+                    color: 0xdd7878
                 }],
             });
         }
 
         return msg.channel.createMessage({
-            content: faq.map((f, i) => `**${i + 1}**. ${f.question}`).join("\n")
+            content: faq.map((f, i) =>
+                `**${i + 1}**. ${f.question} (${f.tags.map(t => "`" + t + "`").join(", ")})`
+            ).join("\n")
         });
     },
 });

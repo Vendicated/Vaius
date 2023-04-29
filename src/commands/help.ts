@@ -1,4 +1,5 @@
 import { Commands, defineCommand } from "../Command";
+import { PREFIX } from "../constants";
 import { reply } from "../util";
 
 defineCommand({
@@ -12,7 +13,7 @@ defineCommand({
             // alias
             if (cmd.name !== name) continue;
 
-            let help = `**${cmd.name}**`;
+            let help = `${PREFIX}**${cmd.name}**`;
             if (cmd.aliases?.length)
                 help += ` (${cmd.aliases.join(", ")})`;
             if (cmd.ownerOnly)

@@ -1,7 +1,7 @@
 import { Client, Intents } from "oceanic.js";
 
 import { Commands } from "./Command";
-import { PROD } from "./constants";
+import { PREFIX } from "./constants";
 import { moderateMessage, moderateNick } from "./moderate";
 import { reply, silently } from "./util";
 
@@ -32,7 +32,6 @@ Vaius.once("ready", () => {
 });
 
 const spaces = /\s+/;
-const PREFIX = PROD ? "v" : "$";
 
 Vaius.on("messageCreate", async msg => {
     if (msg.author.bot) return;

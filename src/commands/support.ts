@@ -6,6 +6,7 @@ import { DATA_DIR } from "../constants";
 import { reply } from "../util";
 
 const instructions = {} as Record<string, string>;
+const list = [] as string[][];
 
 defineCommand({
     name: "support",
@@ -14,6 +15,8 @@ defineCommand({
         const content = instructions[guide.join(" ").toLowerCase()];
         if (content)
             return reply(msg, { content });
+        else
+            return reply(msg, { content: list.map(n => "- " + n.join(", ")).join("\n") });
     },
 });
 
@@ -22,19 +25,25 @@ defineCommand({
     const files = await readdir(supportDir);
 
     for (const file of files) {
+        const name = file.slice(0, -3).toLowerCase();
+        const names = [name];
+
         let content = (await readFile(join(supportDir, file), "utf8")).trim();
-        const fm = /^---\n(.+?)\n---/s.exec(content);
-        if (fm) {
-            content = content.slice(fm[0].length).trim();
+
+        const frontMatter = /^---\n(.+?)\n---/s.exec(content);
+        if (frontMatter) {
+            content = content.slice(frontMatter[0].length).trim();
             const attrs = Object.fromEntries(
-                fm[1].split("\n").map(x => x.split(": ") as [string, string])
+                frontMatter[1].split("\n").map(x => x.split(": ") as [string, string])
             );
 
-            attrs.aliases?.split(",").forEach(a => (
-                instructions[a.trim().toLowerCase()] = content
-            ));
+            attrs.aliases?.split(",").forEach(a => {
+                instructions[a.trim().toLowerCase()] = content;
+                names.push(a.trim().toLowerCase());
+            });
         }
 
-        instructions[file.slice(0, -3).toLowerCase()] = content;
+        instructions[name] = content;
+        list.push(names);
     }
 })();
