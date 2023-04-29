@@ -1,5 +1,5 @@
 ---
-aliases: more info
+aliases: more info, mi
 ---
 
 "doesn't work" and similar are not very helpful. To help you, we need more info!

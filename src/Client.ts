@@ -1,9 +1,9 @@
 import { Client, Intents } from "oceanic.js";
 
 import { Commands } from "./Command";
+import { PROD } from "./constants";
 import { moderateMessage, moderateNick } from "./moderate";
 import { reply, silently } from "./util";
-
 
 export const Vaius = new Client({
     auth: "Bot " + process.env.DISCORD_TOKEN,
@@ -32,7 +32,7 @@ Vaius.once("ready", () => {
 });
 
 const spaces = /\s+/;
-const PREFIX = "v";
+const PREFIX = PROD ? "v" : "$";
 
 Vaius.on("messageCreate", async msg => {
     if (msg.author.bot) return;

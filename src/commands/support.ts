@@ -37,6 +37,4 @@ defineCommand({
 
         instructions[file.slice(0, -3).toLowerCase()] = content;
     }
-
-    console.log(instructions);
 })();

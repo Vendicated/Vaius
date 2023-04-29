@@ -1,4 +1,5 @@
 import "~commands";
+import "./dotenv";
 
 import {
     ApplicationCommandTypes,
@@ -6,8 +7,9 @@ import {
 } from "oceanic.js";
 
 import { Vaius } from "./Client";
+import { PROD } from "./constants";
 
-if (process.env.NODE_ENV === "production") {
+if (PROD) {
     Vaius.once("ready", () => {
         Vaius.application.createGlobalCommand({
             type: ApplicationCommandTypes.CHAT_INPUT,
