@@ -1,17 +1,9 @@
 import { Client, Intents } from "oceanic.js";
 
-import { Command } from "./Command";
+import { Commands } from "./Command";
 import { moderateMessage, moderateNick } from "./moderate";
-import { reply } from "./util";
+import { reply, silently } from "./util";
 
-const commands: Record<string, Command> = {
-    eval: require("./eval").default,
-    findskids: require("./findSkids").default,
-    ban: require("./ban").default,
-    support: require("./support").default,
-    faq: require("./faq").default,
-    prune: require("./prune").default,
-};
 
 export const Vaius = new Client({
     auth: "Bot " + process.env.DISCORD_TOKEN,
@@ -49,19 +41,21 @@ Vaius.on("messageCreate", async msg => {
     if (!msg.content?.startsWith(PREFIX)) return;
 
     const args = msg.content.slice(PREFIX.length).trim().split(spaces);
-    const cmd = commands[args.shift()!];
+    const cmd = Commands[args.shift()!];
     if (!cmd) return;
 
     if (cmd.ownerOnly && msg.author.id !== ownerId)
-        return void reply(msg, { content: "nop" });
+        return void reply(msg, { content: "💢" });
 
     try {
         await cmd.execute(msg, ...args);
     } catch (e) {
-        console.error(`Failed to run ${cmd.name}`);
-        console.error("> ", msg.content);
-        console.error(e);
-        await reply(msg, { content: "Oopsie!" });
+        console.error(
+            `Failed to run ${cmd.name}`,
+            `\n> ${msg.content}\n`,
+            e
+        );
+        silently(reply(msg, { content: "oop, that didn't go well 💥" }));
     }
 });
 

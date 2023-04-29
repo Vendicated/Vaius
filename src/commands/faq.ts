@@ -1,6 +1,6 @@
-import { defineCommand } from "./Command";
-import { VENCORD_SITE } from "./constants";
-import { makeCachedJsonFetch } from "./util";
+import { defineCommand } from "../Command";
+import { VENCORD_SITE } from "../constants";
+import { makeCachedJsonFetch } from "../util";
 
 interface Faq {
     question: string;
@@ -10,8 +10,9 @@ interface Faq {
 
 const fetchFaq = makeCachedJsonFetch<Faq[]>(VENCORD_SITE + "/faq.json");
 
-export default defineCommand({
+defineCommand({
     name: "faq",
+    aliases: ["f"],
     async execute(msg, query) {
         if (!msg.inCachedGuildChannel()) return;
 

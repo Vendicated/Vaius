@@ -1,3 +1,5 @@
+import "~commands";
+
 import {
     ApplicationCommandTypes,
     InteractionTypes
@@ -14,9 +16,11 @@ if (process.env.NODE_ENV === "production") {
         });
     });
 
-    Vaius.on("interactionCreate", i => i.type === InteractionTypes.APPLICATION_COMMAND && i.createMessage({
-        content: "owo"
-    }));
+    Vaius.on("interactionCreate", i =>
+        i.type === InteractionTypes.APPLICATION_COMMAND && i.createMessage({
+            content: "owo"
+        })
+    );
 }
 
 process.on("unhandledRejection", console.error);

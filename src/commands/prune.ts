@@ -1,10 +1,11 @@
 import { Message } from "oceanic.js";
 
-import { defineCommand } from "./Command";
-import { reply } from "./util";
+import { defineCommand } from "../Command";
+import { reply } from "../util";
 
-export default defineCommand({
+defineCommand({
     name: "prune",
+    aliases: ["purge", "clear", "delete"],
     async execute(msg, amount, modifier, extra) {
         if (!msg.inCachedGuildChannel()) return;
 

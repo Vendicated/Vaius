@@ -1,10 +1,11 @@
 import { inspect } from "util";
 
-import { defineCommand } from "./Command";
-import { reply } from "./util";
+import { defineCommand } from "../Command";
+import { reply } from "../util";
 
-export default defineCommand({
+defineCommand({
     name: "eval",
+    aliases: ["e", "$"],
     ownerOnly: true,
     async execute(msg, ...code) {
         const console: any = {

@@ -4,6 +4,7 @@ import { join } from "path";
 import { fetch } from "undici";
 
 import { Vaius } from "./Client";
+import { DATA_DIR } from "./constants";
 import { sendDm, silently, until } from "./util";
 
 const mentions = /<@!?(\d{17,20})>/g;
@@ -11,7 +12,7 @@ const mentions = /<@!?(\d{17,20})>/g;
 // matches nothing
 let imageHostRegex = /^(?!a)a/;
 
-const annoyingDomainsDir = join(__dirname, "..", "data", "annoying-domains");
+const annoyingDomainsDir = join(DATA_DIR, "annoying-domains");
 readdir(annoyingDomainsDir).then(files =>
     Promise.all(files.filter(f => f !== "README.md").map(async s => {
         const content = await readFile(join(annoyingDomainsDir, s), "utf8");

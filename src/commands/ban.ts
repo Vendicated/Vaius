@@ -1,10 +1,11 @@
-import { defineCommand } from "./Command";
-import { reply, silently } from "./util";
+import { defineCommand } from "../Command";
+import { reply, silently } from "../util";
 
 const idRe = /^(?:<@!?)?(\d{17,20})>?$/;
 
-export default defineCommand({
+defineCommand({
     name: "ban",
+    aliases: ["yeet"],
     async execute(msg, ...args) {
         if (!msg.inCachedGuildChannel()) return;
 
@@ -14,7 +15,8 @@ export default defineCommand({
         let possibleDays = Number(args[0]) || 0;
         if (possibleDays > 0 && possibleDays < 8)
             args.shift();
-        else possibleDays = 0;
+        else
+            possibleDays = 0;
 
         const ids = [] as string[];
         let reason = "Absolutely beaned";
