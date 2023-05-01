@@ -1,9 +1,7 @@
 import { inspect } from "util";
 
 import { defineCommand } from "../Command";
-import { reply } from "../util";
-
-const codeblock = (s: string) => "```js\n" + s + "```";
+import { codeblock, reply } from "../util";
 
 defineCommand({
     name: "eval",

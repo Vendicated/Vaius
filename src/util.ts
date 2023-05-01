@@ -16,6 +16,9 @@ export function sleep(ms: number) {
     return new Promise(r => setTimeout(r, ms));
 }
 
+const BACKTICKS = "```";
+export const codeblock = (s: string, lang = "js") => `${BACKTICKS}${lang}\n${s}${BACKTICKS}`;
+
 export async function sendManyLines(msg: Message, lines: string[]) {
     let s = "";
     const doSend = () => msg.channel?.createMessage({ content: s });
