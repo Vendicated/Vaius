@@ -102,7 +102,7 @@ export async function moderateNick(member: Member) {
 
     if (isLame || name !== normalizedName)
         silently(member.edit({
-            nick: isLame ? "I am a lame face" : normalizedName
+            nick: isLame ? "lame username (change it)" : normalizedName
         }));
 }
 
