@@ -95,13 +95,14 @@ const saneName = /\w/;
 export async function moderateNick(member: Member) {
     if (!member.guild.permissionsOf(Vaius.user.id).has("MANAGE_NICKNAMES")) return;
 
-    const name = member.nick ?? member.user.username;
+    const name = member.nick ?? member.username;
+    const normalizedName = name.normalize("NFKC");
 
-    const isLame = name.startsWith("!") || !saneName.test(name) || name.includes("nigger");
+    const isLame = normalizedName.startsWith("!") || !saneName.test(normalizedName);
 
-    if (isLame)
+    if (isLame || name !== normalizedName)
         silently(member.edit({
-            nick: "I am a lame face"
+            nick: isLame ? "I am a lame face" : normalizedName
         }));
 }
 
