@@ -98,7 +98,7 @@ export async function moderateNick(member: Member) {
     const name = member.nick ?? member.username;
     const normalizedName = name.normalize("NFKC");
 
-    const isLame = normalizedName.startsWith("!") || !saneName.test(normalizedName);
+    const isLame = normalizedName.startsWith("!");
 
     if (isLame || name !== normalizedName)
         silently(member.edit({
