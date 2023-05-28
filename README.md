@@ -1,10 +1,8 @@
 # Vaius
 
-The [github repo](https://github.com/Vendicated/Vaius) is only a mirror.
-The actual repo is [on codeberg](https://codeberg.org/Ven/Vaius).
-Issues and pull requests should be directed there and will be ignored on github.
+If you are looking at this repo on github, note that it's just a mirror.
+The actual repo is [on codeberg](https://codeberg.org/Ven/Vaius) and pull requests and issues should go there!
 
-Originally meme bot to give me active dev badge, now just misc bot i have on my server for some utilities.
+This bot is extremely specific and not configurable so there is really no reason for you to want to self host it
 
-This bot is extremly specific and not configurable so you shouldn't use it, and for that reason it's also not under
-open source license. Literally the only reason I made this repo public is so that I don't have to authorise to clone it on my VPS 🚎
+Nevertheless it is still available under a free software license so you can easily audit and modify it!
