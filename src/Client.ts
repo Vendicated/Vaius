@@ -37,7 +37,7 @@ Vaius.on("messageCreate", async msg => {
     if (msg.author.bot) return;
     moderateMessage(msg);
 
-    if (!msg.content?.startsWith(PREFIX)) return;
+    if (!msg.content?.toLowerCase().startsWith(PREFIX)) return;
 
     const args = msg.content.slice(PREFIX.length).trim().split(spaces);
     const cmd = Commands[args.shift()!];
